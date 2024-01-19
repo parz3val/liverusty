@@ -1,20 +1,14 @@
 
 mod wallpapers;
-mod youtube;
-mod vid_mess;
 
 
 #[tokio::main]
 async fn main() {
-    println!("Hello, world!");
-    // Take input from the user for the wall_prompt function and store name in name
     let  name = wall_prompt();
-    // let path = "/Volumes/ExternalDisk/programming/gotomate/vault/";
-    // make path from the string name
-    let path = "/Volumes/ExternalDisk/programming/gotomate/vault/".to_string() + &name;
-    // use the path to start 60 fps loop
-
-    // print the path
+    // get the home directory
+    let home = std::env::var("HOME").unwrap();
+    let wallpaper_directory = home + "/.live_wallpapers/";
+    let path = wallpaper_directory + &name;
     println!("{:?}", path);
     let fps = ask_fps();
     wallpapers::wallpaper_loop_with_path(&path, fps);

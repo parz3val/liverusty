@@ -9,17 +9,22 @@ pub fn wallpaper_loop_with_path(path: &str, fps: u64) {
 
     println!("Changing wallpaper from {:?} with fps {:?}", path, fps);
     let mut i = 1;
+    let frame_count = std::fs::read_dir(path).unwrap().count();
+
     loop {
         let file_name = format!("{:03}", i);
-        let file_path = format!("{}/{}.jpg", path, file_name);
+        let file_path = format!("{}/{}.png", path, file_name);
         // copy file path into a new file_path_name
         let file_path_name = file_path.clone();
         if let Ok(file) = std::fs::File::open(file_path) {
             // print file in console
-            println!("{:?}", file);
             change_wallpaper_from_path(&file_path_name);
         }
+
         i += 1;
+        if i > frame_count - 1 {
+            i = 1;
+        }
         std::thread::sleep(std::time::Duration::from_millis(1000 / fps));
     }
 }
