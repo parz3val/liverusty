@@ -18,7 +18,8 @@ pub fn wallpaper_loop_with_path(path: &str, fps: u64) {
         let file_path_name = file_path.clone();
         if let Ok(file) = std::fs::File::open(file_path) {
             // print file in console
-            change_wallpaper_from_path(&file_path_name);
+            //change_wallpaper_from_path(&file_path_name);
+            change_wallpaper_from_file(&file_path_name);
         }
 
         i += 1;
@@ -29,6 +30,15 @@ pub fn wallpaper_loop_with_path(path: &str, fps: u64) {
     }
 }
 
-fn change_wallpaper_from_path(path: &str) {
+fn _change_wallpaper_from_path(path: &str) {
     wallpaper::set_from_path(path).unwrap();
+}
+
+fn change_wallpaper_from_file(path: &str) {
+    // create a hsetroot -fill path command
+    std::process::Command::new("hsetroot")
+        .arg("-fill")
+        .arg(path)
+        .output()
+        .expect("failed to execute process");
 }
